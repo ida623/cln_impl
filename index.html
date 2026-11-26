@@ -2857,5 +2857,36 @@ window.addEventListener("hashchange",route);
 route();
 })();
 </script>
+<!-- mobile-table-cards -->
+<style>
+@media (max-width:700px){
+  .md table.mcard{display:block;border:0;overflow:visible;width:100%}
+  .md table.mcard thead{display:none}
+  .md table.mcard tbody{display:block}
+  .md table.mcard tr{display:block;border:1px solid var(--line);border-radius:10px;margin:0 0 10px;padding:4px 12px;background:var(--panel)}
+  .md table.mcard td{display:block;border:0;border-bottom:1px dashed var(--line);padding:8px 0;white-space:normal!important;overflow-wrap:anywhere;width:auto}
+  .md table.mcard td:last-child{border-bottom:0}
+  .md table.mcard td:empty{display:none}
+  .md table.mcard td[data-label]::before{content:attr(data-label);display:block;font-size:12px;font-weight:700;color:var(--accent);margin-bottom:2px}
+  .md table.mcard td:first-child{font-weight:600}
+  .md table.mcard .nw{white-space:normal}
+}
+</style>
+<script>
+(function(){
+  function cards(){
+    document.querySelectorAll(".md table:not(.mcard)").forEach(function(t){
+      var head=t.querySelector("thead tr")||t.rows[0];if(!head)return;
+      var labels=[].map.call(head.cells,function(c){return c.textContent.replace(/\s+/g," ").trim()});
+      [].forEach.call(t.querySelectorAll("tbody tr"),function(tr){
+        [].forEach.call(tr.cells,function(td,i){if(labels[i])td.setAttribute("data-label",labels[i])});
+      });
+      t.classList.add("mcard");
+    });
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",cards);else cards();
+})();
+</script>
 </body>
+
 </html>
